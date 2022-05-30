@@ -17,9 +17,13 @@
     <fragment
         android:id="@+id/fragmentIndividualNote"
         android:name="com.example.fancynotes.FragmentIndividualNote"
+        android:label="{note_title}"
         tools:layout="@layout/fragment_individual_note">
         <argument
             android:name="note_position"
             app:argType="integer" />
+        <argument
+            android:name="note_title"
+            app:argType="string" />
     </fragment>
 </navigation>

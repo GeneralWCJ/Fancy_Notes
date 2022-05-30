@@ -7,32 +7,23 @@
     tools:context=".FragmentIndividualNote">
 
     <EditText
-        android:id="@+id/noteTitle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="Title"
-        android:importantForAutofill="no"
-        android:inputType="textAutoCorrect|textCapWords"
-        android:hint="@string/title_hint"/>
-
-    <EditText
         android:id="@+id/noteBody"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:isScrollContainer="true"
+        android:focusable="true"
         android:ems="10"
         android:gravity="start|top"
         android:inputType="textMultiLine|textAutoCorrect|textCapSentences"
-        app:layout_constraintTop_toBottomOf="@+id/noteTitle"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="32dp"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
         android:layout_marginTop="16dp"
-        android:lines="30"
         tools:text="body"
-        android:importantForAutofill="no"/>
+        android:importantForAutofill="no"
+        android:hint = "@string/body_hint"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

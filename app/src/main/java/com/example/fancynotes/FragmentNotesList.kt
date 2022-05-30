@@ -35,7 +35,7 @@ class FragmentNotesList : Fragment() {
         noteHolder.layoutManager = LinearLayoutManager(requireContext())
         val noteHolderAdapter = NotePreviewAdapter {
             val action =
-                FragmentNotesListDirections.actionNotesListFragmentToFragmentIndividualNote(it.position)
+                FragmentNotesListDirections.actionNotesListFragmentToFragmentIndividualNote(it.position, it.title)
             view.findNavController().navigate(action)
         }
         noteHolder.adapter = noteHolderAdapter

@@ -39,8 +39,6 @@ class FragmentIndividualNote : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.noteBody.setText(note.body)
-        binding.noteTitle.setText(note.title)
-
     }
 
     @Deprecated("Deprecated in Java")

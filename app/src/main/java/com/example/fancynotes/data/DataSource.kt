@@ -5,23 +5,54 @@ import com.example.fancynotes.model.Note
 object DataSource {
     val notes: List<Note> = listOf(
         Note(
-            "Note 1",
-            "note 1 text",
+            "Letter 1",
+            "To Mrs. Saville, England.",
             0
         ),
         Note(
-            "Note 2",
-            "note 2 text",
+            "Letter 2",
+            "To Mrs. Saville, England.\n" +
+                    "\n" +
+                    "Archangel, 28th March, 17—.",
             1
         ),
         Note(
-            "Note 3",
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor " +
-                    "incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis " +
-                    "nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. " +
-                    "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore " +
-                    "eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt " +
-                    "in culpa qui officia deserunt mollit anim id est laborum.",
+            "Letter 3",
+            "To Mrs. Saville, England.\n" +
+                    "\n" +
+                    "July 7th, 17—.\n" +
+                    "\n" +
+                    "My dear Sister,\n" +
+                    "\n" +
+                    "I write a few lines in haste to say that I am safe—and well advanced on my " +
+                    "voyage. This letter will reach England by a merchantman now on its homeward " +
+                    "voyage from Archangel; more fortunate than I, who may not see my native land, " +
+                    "perhaps, for many years. I am, however, in good spirits: my men are bold and " +
+                    "apparently firm of purpose, nor do the floating sheets of ice that continually " +
+                    "pass us, indicating the dangers of the region towards which we are advancing, " +
+                    "appear to dismay them. We have already reached a very high latitude; but it is " +
+                    "the height of summer, and although not so warm as in England, the southern " +
+                    "gales, which blow us speedily towards those shores which I so ardently desire " +
+                    "to attain, breathe a degree of renovating warmth which I had not expected.\n" +
+                    "\n" +
+                    "No incidents have hitherto befallen us that would make a figure in a letter. " +
+                    "One or two stiff gales and the springing of a leak are accidents which " +
+                    "experienced navigators scarcely remember to record, and I shall be well " +
+                    "content if nothing worse happen to us during our voyage.\n" +
+                    "\n" +
+                    "Adieu, my dear Margaret. Be assured that for my own sake, as well as yours, " +
+                    "I will not rashly encounter danger. I will be cool, persevering, and prudent.\n" +
+                    "\n" +
+                    "But success shall crown my endeavours. Wherefore not? Thus far I have gone, " +
+                    "tracing a secure way over the pathless seas, the very stars themselves being " +
+                    "witnesses and testimonies of my triumph. Why not still proceed over the " +
+                    "untamed yet obedient element? What can stop the determined heart and" +
+                    " resolved will of man?\n" +
+                    "\n" +
+                    "My swelling heart involuntarily pours itself out thus. But I must finish. " +
+                    "Heaven bless my beloved sister!\n" +
+                    "\n" +
+                    "R.W.",
             2
         ),
         Note(
@@ -97,13 +128,30 @@ object DataSource {
             3
         ),
         Note(
-            "Note 5",
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor " +
-                    "incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis " +
-                    "nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. " +
-                    "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore " +
-                    "eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt " +
-                    "in culpa qui officia deserunt mollit anim id est laborum.",
+            "Chapter 1",
+            "I am by birth a Genevese, and my family is one of the most distinguished of that " +
+                    "republic. My ancestors had been for many years counsellors and syndics, and my " +
+                    "father had filled several public situations with honour and reputation. He was " +
+                    "respected by all who knew him for his integrity and indefatigable attention to " +
+                    "public business. He passed his younger days perpetually occupied by the affairs " +
+                    "of his country; a variety of circumstances had prevented his marrying early, " +
+                    "nor was it until the decline of life that he became a husband and the father " +
+                    "of a family.\n" +
+                    "\n" +
+                    "As the circumstances of his marriage illustrate his character, I cannot " +
+                    "refrain from relating them. One of his most intimate friends was a " +
+                    "merchant who, from a flourishing state, fell, through numerous mischances, " +
+                    "into poverty. This man, whose name was Beaufort, was of a proud and unbending " +
+                    "disposition and could not bear to live in poverty and oblivion in the same " +
+                    "country where he had formerly been distinguished for his rank and magnificence. " +
+                    "Having paid his debts, therefore, in the most honourable manner, he retreated " +
+                    "with his daughter to the town of Lucerne, where he lived unknown and in " +
+                    "wretchedness. My father loved Beaufort with the truest friendship and was " +
+                    "deeply grieved by his retreat in these unfortunate circumstances. He " +
+                    "bitterly deplored the false pride which led his friend to a conduct so " +
+                    "little worthy of the affection that united them. He lost no time in " +
+                    "endeavouring to seek him out, with the hope of persuading him to begin " +
+                    "the world again through his credit and assistance.",
             4
         ),
     )
