@@ -2,4 +2,8 @@
     <string name="app_name">Fancy Notes</string>
     <string name="title_hint">The title of the Note</string>
     <string name="body_hint">The Text of your note. It can be as long as you want</string>
+    <string name="edit_title">Edit title</string>
+    <string name="edit_title_hint">The new title of the note</string>
+    <string name="cancel">Cancel</string>
+    <string name="confirm">Confirm</string>
 </resources>

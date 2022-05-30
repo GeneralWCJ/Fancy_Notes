@@ -40,6 +40,7 @@ class FragmentNotesList : Fragment() {
         }
         noteHolder.adapter = noteHolderAdapter
         noteHolderAdapter.submitList(DataSource.notes)
+        //TODO add menu button to change note title
 
     }
 
