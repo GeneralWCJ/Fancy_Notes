@@ -5,7 +5,6 @@ import android.os.Bundle
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupActionBarWithNavController
-import com.example.fancynotes.adapter.NotePreviewAdapter
 import com.example.fancynotes.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {

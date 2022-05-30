@@ -6,8 +6,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.fancynotes.adapter.NotePreviewAdapter
+import com.example.fancynotes.data.DataSource
 import com.example.fancynotes.databinding.FragmentNotesListBinding
 
 class FragmentNotesList : Fragment() {
@@ -18,25 +20,31 @@ class FragmentNotesList : Fragment() {
 
     private lateinit var viewModel: NotesListViewModel
     private var _binding: FragmentNotesListBinding? = null
-    val binding get() = _binding!!
-
-
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        _binding = FragmentNotesListBinding.inflate(inflater,container,false)
+    ): View {
+        _binding = FragmentNotesListBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val noteHolder = binding.noteHolder
         noteHolder.layoutManager = LinearLayoutManager(requireContext())
-        noteHolder.adapter = NotePreviewAdapter(requireContext())
+        val noteHolderAdapter = NotePreviewAdapter {
+            val action =
+                FragmentNotesListDirections.actionNotesListFragmentToFragmentIndividualNote(it.position)
+            view.findNavController().navigate(action)
+        }
+        noteHolder.adapter = noteHolderAdapter
+        noteHolderAdapter.submitList(DataSource.notes)
 
     }
 
+
+    @Deprecated("Deprecated in Java")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this)[NotesListViewModel::class.java]
@@ -47,5 +55,6 @@ class FragmentNotesList : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+
 
 }

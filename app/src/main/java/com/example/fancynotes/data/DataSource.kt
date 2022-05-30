@@ -7,12 +7,12 @@ object DataSource {
         Note(
             "Note 1",
             "note 1 text",
-            1
+            0
         ),
         Note(
             "Note 2",
             "note 2 text",
-            2
+            1
         ),
         Note(
             "Note 3",
@@ -22,7 +22,7 @@ object DataSource {
                     "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore " +
                     "eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt " +
                     "in culpa qui officia deserunt mollit anim id est laborum.",
-            3
+            2
         ),
         Note(
             "John 3",
@@ -94,7 +94,7 @@ object DataSource {
                     "and has placed everything in his hands. 36 Whoever believes in the Son has " +
                     "eternal life, but whoever rejects the Son will not see life, for God’s wrath " +
                     "remains on them.",
-            4
+            3
         ),
         Note(
             "Note 5",
@@ -104,7 +104,7 @@ object DataSource {
                     "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore " +
                     "eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt " +
                     "in culpa qui officia deserunt mollit anim id est laborum.",
-            5
+            4
         ),
     )
 }

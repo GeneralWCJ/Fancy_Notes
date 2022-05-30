@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".FragmmentIndividualNote">
+    tools:context=".FragmentIndividualNote">
 
     <EditText
         android:id="@+id/noteTitle"
@@ -15,7 +15,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="Title" />
+        tools:text="Title"
+        android:importantForAutofill="no"
+        android:inputType="textAutoCorrect|textCapWords"
+        android:hint="@string/title_hint"/>
 
     <EditText
         android:id="@+id/noteBody"
@@ -23,12 +26,13 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:gravity="start|top"
-        android:inputType="textMultiLine"
+        android:inputType="textMultiLine|textAutoCorrect|textCapSentences"
         app:layout_constraintTop_toBottomOf="@+id/noteTitle"
         app:layout_constraintStart_toStartOf="parent"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
         android:layout_marginTop="16dp"
-        android:maxLines="20"
-        tools:text="body" />
+        android:lines="30"
+        tools:text="body"
+        android:importantForAutofill="no"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
