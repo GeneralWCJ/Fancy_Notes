@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.fancynotes.databinding.NotePreviewBinding
 import com.example.fancynotes.model.Note
+import com.example.fancynotes.model.getTruncatedBody
 
 /**
  * Inflates individual cards
@@ -53,7 +54,7 @@ class NotePreviewAdapter(
         private var binding: NotePreviewBinding
     ): RecyclerView.ViewHolder(binding.root) {
         fun bind(note: Note) {
-            binding.bodyPreview.text = note.body
+            binding.bodyPreview.text = note.getTruncatedBody()
             binding.titlePreview.text = note.title
         }
     }

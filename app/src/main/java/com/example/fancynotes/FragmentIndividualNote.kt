@@ -63,7 +63,7 @@ class FragmentIndividualNote : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_switch_layout -> {
-                Toast.makeText(context, "Editing title", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, R.string.todo, Toast.LENGTH_SHORT).show()
                 return true
             }
 
