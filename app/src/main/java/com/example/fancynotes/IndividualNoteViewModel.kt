@@ -1,23 +1,41 @@
 package com.example.fancynotes
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.asLiveData
 import com.example.fancynotes.data.NoteDao
 import com.example.fancynotes.model.Note
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.launch
+
 
 class IndividualNoteViewModel(private val noteDao: NoteDao) : ViewModel() {
 
-    fun loadNote(position : Int): Note{
-        var note: Note
-        viewModelScope.launch {
-            note = noteDao.getNote(position)
+//    fun loadNote(position : Int): Note{
+//        var note: Note
+//
+//        return note
+//    }
 
+    /**
+     * Returns true if both title and body are not empty
+     */
+    fun isNoteValid(noteTitle:String, noteBody:String):Boolean{
+        if(noteTitle.isBlank() || noteBody.isBlank()){
+            return false
         }
-        return note
+        return true
     }
+
+    /**
+     * Retrieve an [Note] from the repository.
+     */
+    fun retrieveItem(position: Int): LiveData<Note> {
+        return noteDao.getNote(position).asLiveData()
+    }
+
+
+
+
 
 }
 

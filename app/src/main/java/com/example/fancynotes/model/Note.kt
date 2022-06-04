@@ -1,6 +1,7 @@
 package com.example.fancynotes.model
 
 import androidx.annotation.NonNull
+import androidx.lifecycle.LiveData
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -11,10 +12,14 @@ import androidx.room.PrimaryKey
  */
 @Entity(tableName = "notes")
 data class Note(
-    @PrimaryKey val id: Int,
-    @NonNull @ColumnInfo(name = "note_title") val title: String,
-    @NonNull @ColumnInfo(name = "note_body") val body: String,
-    @NonNull @ColumnInfo(name = "note_position") val position: Int
+    @PrimaryKey(autoGenerate = true)
+    val id: Int = 0,
+    @NonNull @ColumnInfo(name = "note_title")
+    val title: String,
+    @NonNull @ColumnInfo(name = "note_body")
+    val body: String,
+    @NonNull @ColumnInfo(name = "note_position")
+    val position: Int
 )
 
 /**
@@ -22,16 +27,15 @@ data class Note(
  * space after the 300 character cutoff, and adds a ... to tell user that there is more to the note
  * that has been cut off, and is visible if you select the note as a whole.
  */
-fun Note.getTruncatedBody():String{
+fun Note.getTruncatedBody(): String {
     val maxLength = 500
-    return if(body.length > maxLength){
-        var truncated: String = body.substring(0,maxLength)
+    return if (body.length > maxLength) {
+        var truncated: String = body.substring(0, maxLength)
         val left: String = body.substring(maxLength)
         truncated += left.split(" ")[0]
         truncated += " ..."
         truncated
-    }
-    else{
+    } else {
         body
     }
 

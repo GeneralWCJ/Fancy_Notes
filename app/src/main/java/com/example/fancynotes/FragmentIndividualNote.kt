@@ -1,14 +1,19 @@
 package com.example.fancynotes
 
+import android.content.Context
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.view.*
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.navArgs
 import com.example.fancynotes.data.DataSource
 import com.example.fancynotes.databinding.FragmentIndividualNoteBinding
 import com.example.fancynotes.model.Note
+import kotlin.properties.Delegates
 
 class FragmentIndividualNote : Fragment() {
 
@@ -18,14 +23,22 @@ class FragmentIndividualNote : Fragment() {
     private var _binding: FragmentIndividualNoteBinding? = null
     private val binding get() = _binding!!
     private lateinit var note: Note
-    private lateinit var viewModel: IndividualNoteViewModel
+    private val viewModel: IndividualNoteViewModel by activityViewModels {
+        IndividualNoteViewModelFactory(
+            (activity?.application as FancyNoteApplication).database.itemDao()
+        )
+    }
+    private var _notePosition: Int? = null
+    private val notePosition get()= _notePosition!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
         arguments?.let{
-            val noteId = it.getInt("note_position")
-            note = DataSource.notes[noteId]
+            _notePosition = it.getInt("note_position")
+//            note = DataSource.notes[notePosition]
+//            note = viewModel.retrieveNote(notePosition)
+
             //TODO use view model instead of Datasource
         }
     }
@@ -39,18 +52,29 @@ class FragmentIndividualNote : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        binding.noteBody.setText(note.body)
+        super.onViewCreated(view, savedInstanceState)
+        // Retrieve the note details using the notePosition.
+        // Attach an observer on the data (instead of polling for changes) and only update the
+        // the UI when the data actually changes.
+        viewModel.retrieveItem(notePosition).observe(this.viewLifecycleOwner) { selectedNote ->
+            note = selectedNote
+            bind(note)
+        }
+
     }
 
-    @Deprecated("Deprecated in Java")
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this)[IndividualNoteViewModel::class.java]
-        // TODO: Use the ViewModel
-    }
+//    @Deprecated("Deprecated in Java")
+//    override fun onActivityCreated(savedInstanceState: Bundle?) {
+//        super.onActivityCreated(savedInstanceState)
+//        viewModel = ViewModelProvider(this)[IndividualNoteViewModel::class.java]
+//    }
 
     override fun onDestroyView() {
         super.onDestroyView()
+        // Hide keyboard.
+        val inputMethodManager = requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as
+                InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(requireActivity().currentFocus?.windowToken, 0)
         _binding = null
     }
 
@@ -68,6 +92,12 @@ class FragmentIndividualNote : Fragment() {
             }
 
             else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    private fun bind(note:Note){
+        binding.apply {
+            noteBody.setText(note.body)
         }
     }
 
