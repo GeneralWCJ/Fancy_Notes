@@ -21,7 +21,7 @@ class NotePreviewAdapter(
         private val DiffCallback = object : DiffUtil.ItemCallback<Note>() {
             override fun areItemsTheSame(oldItem: Note, newItem: Note): Boolean {
 
-                return oldItem.position == newItem.position
+                return oldItem.id == newItem.id
                 //TODO("Use Primary keys once room is implemented")
             }
 

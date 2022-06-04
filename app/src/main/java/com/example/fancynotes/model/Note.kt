@@ -1,13 +1,20 @@
 package com.example.fancynotes.model
 
+import androidx.annotation.NonNull
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
 /**
  * A data class representing information inside of a standard note. Includes information about
  * the title of the note, the body of the note, and the Notes Position
  */
+@Entity(tableName = "notes")
 data class Note(
-    val title: String,
-    val body: String,
-    val position: Int
+    @PrimaryKey val id: Int,
+    @NonNull @ColumnInfo(name = "note_title") val title: String,
+    @NonNull @ColumnInfo(name = "note_body") val body: String,
+    @NonNull @ColumnInfo(name = "note_position") val position: Int
 )
 
 /**

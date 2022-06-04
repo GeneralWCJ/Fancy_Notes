@@ -1,16 +1,18 @@
 package com.example.fancynotes
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.coroutineScope
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.fancynotes.adapter.NotePreviewAdapter
-import com.example.fancynotes.data.DataSource
 import com.example.fancynotes.databinding.FragmentNotesListBinding
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 class FragmentNotesList : Fragment() {
 
@@ -18,7 +20,12 @@ class FragmentNotesList : Fragment() {
         fun newInstance() = FragmentNotesList()
     }
 
-    private lateinit var viewModel: NotesListViewModel
+    private val viewModel: NotesListViewModel by activityViewModels {
+        NotesListViewModelFactory(
+            (activity?.application as FancyNoteApplication).database.itemDao()
+        )
+    }
+
     private var _binding: FragmentNotesListBinding? = null
     private val binding get() = _binding!!
 
@@ -35,22 +42,35 @@ class FragmentNotesList : Fragment() {
         noteHolder.layoutManager = LinearLayoutManager(requireContext())
         val noteHolderAdapter = NotePreviewAdapter {
             val action =
-                FragmentNotesListDirections.actionNotesListFragmentToFragmentIndividualNote(it.position, it.title)
+                FragmentNotesListDirections.actionNotesListFragmentToFragmentIndividualNote(
+                    it.position,
+                    it.title
+                )
             view.findNavController().navigate(action)
         }
         noteHolder.adapter = noteHolderAdapter
-        noteHolderAdapter.submitList(DataSource.notes)
-        //TODO add menu button to change note title
+        //noteHolderAdapter.submitList(DataSource.notes)
+
+        //Load stuff
+
+//        GlobalScope.launch(Dispatchers.IO) {
+//            noteHolderAdapter.submitList(viewModel.loadAllNotes())
+//        }
+
+        lifecycle.coroutineScope.launch {
+            viewModel.loadAllNotes().collect {
+                noteHolderAdapter.submitList(it)
+            }
+        }
 
     }
 
-
-    @Deprecated("Deprecated in Java")
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this)[NotesListViewModel::class.java]
-        // TODO: Use the ViewModel
-    }
+//    @Deprecated("Deprecated in Java")
+//    override fun onActivityCreated(savedInstanceState: Bundle?) {
+//        super.onActivityCreated(savedInstanceState)
+//        viewModel = ViewModelProvider(this)[NotesListViewModel::class.java]
+//        // TODO: Use the ViewModel
+//    }
 
     override fun onDestroyView() {
         super.onDestroyView()

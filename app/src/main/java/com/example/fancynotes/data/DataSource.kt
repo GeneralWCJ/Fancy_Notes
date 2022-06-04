@@ -5,11 +5,13 @@ import com.example.fancynotes.model.Note
 object DataSource {
     val notes: List<Note> = listOf(
         Note(
+            0,
             "Letter 1",
             "To Mrs. Saville, England.",
             0
         ),
         Note(
+            1,
             "Letter 2",
             "To Mrs. Saville, England.\n" +
                     "\n" +
@@ -17,6 +19,7 @@ object DataSource {
             1
         ),
         Note(
+            2,
             "Letter 3",
             "To Mrs. Saville, England.\n" +
                     "\n" +
@@ -56,6 +59,7 @@ object DataSource {
             2
         ),
         Note(
+            3,
             "John 3",
             "3 Now there was a Pharisee, a man named Nicodemus who was a member of the Jewish" +
                     " ruling council. 2 He came to Jesus at night and said, “Rabbi, we know that " +
@@ -128,6 +132,7 @@ object DataSource {
             3
         ),
         Note(
+            4,
             "Chapter 1",
             "I am by birth a Genevese, and my family is one of the most distinguished of that " +
                     "republic. My ancestors had been for many years counsellors and syndics, and my " +
