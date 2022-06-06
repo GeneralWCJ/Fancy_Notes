@@ -1,7 +1,6 @@
 package com.example.fancynotes
 
 import android.content.Context
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.view.*
 import android.view.inputmethod.InputMethodManager
@@ -9,11 +8,8 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.fragment.navArgs
-import com.example.fancynotes.data.DataSource
 import com.example.fancynotes.databinding.FragmentIndividualNoteBinding
 import com.example.fancynotes.model.Note
-import kotlin.properties.Delegates
 
 class FragmentIndividualNote : Fragment() {
 
