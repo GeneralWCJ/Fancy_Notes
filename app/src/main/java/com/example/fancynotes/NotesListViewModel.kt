@@ -10,7 +10,6 @@ import kotlinx.coroutines.launch
 
 
 class NotesListViewModel(private val noteDao:NoteDao) : ViewModel() {
-    // TODO: Implement the ViewModel
 
     fun addNote(note: Note){
         viewModelScope.launch {

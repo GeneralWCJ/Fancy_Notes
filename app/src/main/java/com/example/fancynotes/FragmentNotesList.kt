@@ -1,10 +1,10 @@
 package com.example.fancynotes
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.coroutineScope
 import androidx.navigation.findNavController
@@ -43,34 +43,18 @@ class FragmentNotesList : Fragment() {
         val noteHolderAdapter = NotePreviewAdapter {
             val action =
                 FragmentNotesListDirections.actionNotesListFragmentToFragmentIndividualNote(
-                    it.position,
-                    it.title
+                    it.position
                 )
             view.findNavController().navigate(action)
         }
         noteHolder.adapter = noteHolderAdapter
-        //noteHolderAdapter.submitList(DataSource.notes)
-
-        //Load stuff
-
-//        GlobalScope.launch(Dispatchers.IO) {
-//            noteHolderAdapter.submitList(viewModel.loadAllNotes())
-//        }
 
         lifecycle.coroutineScope.launch {
             viewModel.loadAllNotes().collect {
                 noteHolderAdapter.submitList(it)
             }
         }
-
     }
-
-//    @Deprecated("Deprecated in Java")
-//    override fun onActivityCreated(savedInstanceState: Bundle?) {
-//        super.onActivityCreated(savedInstanceState)
-//        viewModel = ViewModelProvider(this)[NotesListViewModel::class.java]
-//        // TODO: Use the ViewModel
-//    }
 
     override fun onDestroyView() {
         super.onDestroyView()

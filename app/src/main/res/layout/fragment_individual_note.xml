@@ -7,6 +7,22 @@
     tools:context=".FragmentIndividualNote">
 
     <EditText
+        android:id="@+id/noteTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:focusable="true"
+        android:hint="@string/edit_title_hint"
+        android:importantForAutofill="no"
+        android:inputType="textAutoCorrect|textCapWords"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Title" />
+
+    <EditText
         android:id="@+id/noteBody"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -15,13 +31,13 @@
         android:ems="10"
         android:gravity="start|top"
         android:inputType="textMultiLine|textAutoCorrect|textCapSentences"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/noteTitle"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginBottom="32dp"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
         android:layout_marginTop="16dp"
-        tools:text="body"
+        tools:text="Body"
         android:importantForAutofill="no"
         android:hint = "@string/body_hint"
         />

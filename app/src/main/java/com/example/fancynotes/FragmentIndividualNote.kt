@@ -2,10 +2,10 @@ package com.example.fancynotes
 
 import android.content.Context
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import android.widget.Toast
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.example.fancynotes.databinding.FragmentIndividualNoteBinding
@@ -32,10 +32,7 @@ class FragmentIndividualNote : Fragment() {
         setHasOptionsMenu(true)
         arguments?.let{
             _notePosition = it.getInt("note_position")
-//            note = DataSource.notes[notePosition]
-//            note = viewModel.retrieveNote(notePosition)
 
-            //TODO use view model instead of Datasource
         }
     }
 
@@ -74,26 +71,27 @@ class FragmentIndividualNote : Fragment() {
         _binding = null
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.individual_note_menu,menu)
-        val editButton = menu.findItem(R.id.action_switch_layout)
-        editButton.icon = ContextCompat.getDrawable(requireContext(),R.drawable.ic_edit_title)
-    }
+//    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+//        inflater.inflate(R.menu.individual_note_menu,menu)
+//        val editButton = menu.findItem(R.id.action_switch_layout)
+//        editButton.icon = ContextCompat.getDrawable(requireContext(),R.drawable.ic_edit_title)
+//    }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.action_switch_layout -> {
-                Toast.makeText(context, R.string.todo, Toast.LENGTH_SHORT).show()
-                return true
-            }
+//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+//        return when (item.itemId) {
+//            R.id.action_switch_layout -> {
+//                Toast.makeText(context, R.string.to_do, Toast.LENGTH_SHORT).show()
+//                return true
+//            }
+//
+//            else -> super.onOptionsItemSelected(item)
+//        }
+//    }
 
-            else -> super.onOptionsItemSelected(item)
-        }
-    }
-
-    private fun bind(note:Note){
+    private fun bind(note: Note) {
         binding.apply {
             noteBody.setText(note.body)
+            noteTitle.setText(note.title)
         }
     }
 
