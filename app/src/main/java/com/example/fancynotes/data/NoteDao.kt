@@ -20,5 +20,5 @@ interface NoteDao {
     suspend fun delete(note: Note)
 
     @Query("SELECT * FROM notes WHERE note_position == :position")
-    fun getNote(position: Int): Flow<Note>
+    suspend fun getNote(position: Int): Note
 }

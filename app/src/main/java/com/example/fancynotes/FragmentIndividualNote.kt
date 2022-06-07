@@ -2,37 +2,42 @@ package com.example.fancynotes
 
 import android.content.Context
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import com.example.fancynotes.databinding.FragmentIndividualNoteBinding
 import com.example.fancynotes.model.Note
+import kotlinx.coroutines.launch
 
 class FragmentIndividualNote : Fragment() {
 
     companion object {
         fun newInstance() = FragmentIndividualNote()
     }
+
     private var _binding: FragmentIndividualNoteBinding? = null
     private val binding get() = _binding!!
-    private lateinit var note: Note
+    private var _note: Note? = null
+    private val note get() = _note!!
     private val viewModel: IndividualNoteViewModel by activityViewModels {
         IndividualNoteViewModelFactory(
             (activity?.application as FancyNoteApplication).database.itemDao()
         )
     }
     private var _notePosition: Int? = null
-    private val notePosition get()= _notePosition!!
+    private val notePosition get() = _notePosition!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
         arguments?.let{
             _notePosition = it.getInt("note_position")
-
         }
     }
 
@@ -49,18 +54,15 @@ class FragmentIndividualNote : Fragment() {
         // Retrieve the note details using the notePosition.
         // Attach an observer on the data (instead of polling for changes) and only update the
         // the UI when the data actually changes.
-        viewModel.retrieveItem(notePosition).observe(this.viewLifecycleOwner) { selectedNote ->
-            note = selectedNote
+//        viewModel.retrieveItem(notePosition).observe(this.viewLifecycleOwner) { selectedNote ->
+//            note = selectedNote
+//            bind(note)
+//        }
+        lifecycleScope.launch {
+            _note = viewModel.retrieveItem(notePosition)
             bind(note)
         }
-
     }
-
-//    @Deprecated("Deprecated in Java")
-//    override fun onActivityCreated(savedInstanceState: Bundle?) {
-//        super.onActivityCreated(savedInstanceState)
-//        viewModel = ViewModelProvider(this)[IndividualNoteViewModel::class.java]
-//    }
 
     override fun onDestroyView() {
         super.onDestroyView()
@@ -71,28 +73,61 @@ class FragmentIndividualNote : Fragment() {
         _binding = null
     }
 
-//    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-//        inflater.inflate(R.menu.individual_note_menu,menu)
-//        val editButton = menu.findItem(R.id.action_switch_layout)
-//        editButton.icon = ContextCompat.getDrawable(requireContext(),R.drawable.ic_edit_title)
-//    }
-
-//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-//        return when (item.itemId) {
-//            R.id.action_switch_layout -> {
-//                Toast.makeText(context, R.string.to_do, Toast.LENGTH_SHORT).show()
-//                return true
-//            }
-//
-//            else -> super.onOptionsItemSelected(item)
-//        }
-//    }
-
     private fun bind(note: Note) {
         binding.apply {
             noteBody.setText(note.body)
+            noteBody.addTextChangedListener(object : TextWatcher {
+
+                override fun afterTextChanged(s: Editable) {
+                    onBodyTextChanged(s)
+                }
+
+                override fun beforeTextChanged(
+                    s: CharSequence, start: Int,
+                    count: Int, after: Int
+                ) {
+                }
+
+                override fun onTextChanged(
+                    s: CharSequence, start: Int,
+                    before: Int, count: Int
+                ) {
+
+
+                }
+            })
             noteTitle.setText(note.title)
+            noteTitle.addTextChangedListener(object : TextWatcher {
+
+                override fun afterTextChanged(s: Editable) {
+                    onTitleTextChanged(s)
+                }
+
+                override fun beforeTextChanged(
+                    s: CharSequence, start: Int,
+                    count: Int, after: Int
+                ) {
+                }
+
+                override fun onTextChanged(
+                    s: CharSequence, start: Int,
+                    before: Int, count: Int
+                ) {
+
+
+                }
+            })
         }
+    }
+
+    fun onBodyTextChanged(s: CharSequence) {
+        _note!!.body = s.toString()
+        viewModel.editNote(note)
+    }
+
+    fun onTitleTextChanged(s: CharSequence) {
+        _note!!.title = s.toString()
+        viewModel.editNote(note)
     }
 
 }

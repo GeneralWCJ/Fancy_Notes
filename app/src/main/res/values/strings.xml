@@ -6,5 +6,6 @@
     <string name="edit_title_hint">The new title of the note</string>
     <string name="cancel">Cancel</string>
     <string name="confirm">Confirm</string>
-    <string name="todo">To Be Implemented</string>
+    <string name="to_be_implemented">To Be Implemented</string>
+    <string name="add_note">Add note</string>
 </resources>
