@@ -80,7 +80,7 @@ class FragmentNotesList : Fragment() {
         _binding = null
     }
 
-    fun addNote() {
+    private fun addNote() {
         val items = binding.noteHolder.adapter!!.itemCount
         val noteToAdd = Note(null, "", "", items)
         viewModel.addNote(noteToAdd)

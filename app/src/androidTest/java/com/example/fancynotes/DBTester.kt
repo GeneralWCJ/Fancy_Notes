@@ -18,7 +18,7 @@ import org.junit.runner.RunWith
 import java.io.IOException
 
 @RunWith(AndroidJUnit4::class)
-class DBTester : TestCase() {
+class DBTester : TestCase("Dao Testing") {
 
     private lateinit var noteDao: NoteDao
     private lateinit var db: NoteRoomDatabase
@@ -50,5 +50,20 @@ class DBTester : TestCase() {
         )
     }
 
+    @Test
+    @Throws(Exception::class)
+    fun updateNote() = runBlocking {
+        var note = Note(null, "title 1", "body 1", 1)
+        noteDao.insert(note)
+        val noteindb = noteDao.getNote(1)
+        noteindb.body = "sonmething else"
+        noteDao.update(noteindb)
+        //Thread.sleep(1000)
+        val indatabase = noteDao.getNote(1)
+        assertTrue(
+            "the note was not updated",
+            noteindb == indatabase
+        )
+    }
 
 }

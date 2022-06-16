@@ -51,13 +51,8 @@ class FragmentIndividualNote : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        // Retrieve the note details using the notePosition.
-        // Attach an observer on the data (instead of polling for changes) and only update the
-        // the UI when the data actually changes.
-//        viewModel.retrieveItem(notePosition).observe(this.viewLifecycleOwner) { selectedNote ->
-//            note = selectedNote
-//            bind(note)
-//        }
+        // Retrieves the note details using the notePosition.
+        // then takes the data and places it on screen
         lifecycleScope.launch {
             _note = viewModel.retrieveItem(notePosition)
             bind(note)
@@ -92,8 +87,6 @@ class FragmentIndividualNote : Fragment() {
                     s: CharSequence, start: Int,
                     before: Int, count: Int
                 ) {
-
-
                 }
             })
             noteTitle.setText(note.title)
@@ -113,8 +106,6 @@ class FragmentIndividualNote : Fragment() {
                     s: CharSequence, start: Int,
                     before: Int, count: Int
                 ) {
-
-
                 }
             })
         }
