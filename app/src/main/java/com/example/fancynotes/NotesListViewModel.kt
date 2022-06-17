@@ -9,6 +9,7 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import kotlin.coroutines.cancellation.CancellationException
 
 
 class NotesListViewModel(private val noteDao:NoteDao) : ViewModel() {
@@ -24,21 +25,28 @@ class NotesListViewModel(private val noteDao:NoteDao) : ViewModel() {
     }
 
     fun deleteNote(note: Note) {
-        viewModelScope.launch {
-            //deletes note to be deleted
-            noteDao.delete(note)
-            // gets all remaining notes
-            loadAllNotes().collect {
-                //if the note isnt at the end then move positons accordingly to remove gaps
-                if (note.position != it.size - 1) {
-                    // Start at note posotion, reduce posotions till end
-                    for (i in note.position until it.size) {
-                        it[i].position--
+        try {
+            viewModelScope.launch {
+                //deletes note to be deleted
+                noteDao.delete(note)
+                // gets all remaining notes
+                loadAllNotes().collect {
+                    //if the note isnt at the end then move positons accordingly to remove gaps
+                    if (note.position != it.size - 1) {
+                        // Start at note posotion, reduce posotions till end
+                        for (i in note.position until it.size) {
+                            val noteToChange = it[i]
+                            noteToChange.position--
+                            noteDao.update(noteToChange)
+                        }
                     }
+                    cancel()
                 }
-                cancel()
             }
+        } catch (e: CancellationException) {
+
         }
+
     }
 }
 
