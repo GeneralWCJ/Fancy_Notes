@@ -42,6 +42,7 @@ class FragmentNotesList : Fragment() {
         val noteHolder = binding.noteHolder
         noteHolder.layoutManager = LinearLayoutManager(requireContext())
         val noteHolderAdapter = NotePreviewAdapter {
+            // moves to the note editor when a note is clicked
             val action =
                 FragmentNotesListDirections.actionNotesListFragmentToFragmentIndividualNote(
                     it.position

@@ -18,7 +18,7 @@ data class Note(
     @NonNull @ColumnInfo(name = "note_body")
     var body: String,
     @NonNull @ColumnInfo(name = "note_position")
-    val position: Int
+    var position: Int
 )
 
 /**
