@@ -7,9 +7,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.coroutineScope
 import androidx.navigation.findNavController
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.fancynotes.adapter.NotePreviewAdapter
 import com.example.fancynotes.databinding.FragmentNotesListBinding
+import com.example.fancynotes.helpers.SwipeToDeleteCallBack
 import com.example.fancynotes.model.Note
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -50,7 +52,8 @@ class FragmentNotesList : Fragment() {
             view.findNavController().navigate(action)
         }
         noteHolder.adapter = noteHolderAdapter
-
+        val itemTouchHelper = ItemTouchHelper(SwipeToDeleteCallBack(viewModel))
+        itemTouchHelper.attachToRecyclerView(noteHolder)
         lifecycle.coroutineScope.launch {
             viewModel.loadAllNotes().collect {
                 noteHolderAdapter.submitList(it)

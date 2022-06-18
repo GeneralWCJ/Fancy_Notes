@@ -9,10 +9,11 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kotlin.coroutines.cancellation.CancellationException
 
 
-class NotesListViewModel(private val noteDao:NoteDao) : ViewModel() {
+class NotesListViewModel(private val noteDao: NoteDao) : ViewModel() {
 
     fun addNote(note: Note) {
         viewModelScope.launch {
@@ -44,10 +45,13 @@ class NotesListViewModel(private val noteDao:NoteDao) : ViewModel() {
                 }
             }
         } catch (e: CancellationException) {
-
         }
-
     }
+
+    fun retrieveItem(position: Int): Note = runBlocking {
+        return@runBlocking noteDao.getNote(position)
+    }
+
 }
 
 class NotesListViewModelFactory(private val noteDao: NoteDao) : ViewModelProvider.Factory {
