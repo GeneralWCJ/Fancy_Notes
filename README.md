@@ -1,6 +1,6 @@
-# Fancy_Notes
+# Fancy Notes
 
-A note taking app that uses room to store notes. Currently there is no reason to use this instead of google keep
+A note taking app that uses room to store notes. Currently there is no reason to use this instead of google keep. However It can create a note, and delete it, and lets you edit the note
 
 
 Copyright (c) 2022 Joseph Wilson
