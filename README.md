@@ -1,7 +1,25 @@
 # Fancy Notes
 
-A note taking app that uses room to store notes. Currently there is no reason to use this instead of google keep. However It can create a note, and delete it, and lets you edit the note
+A note taking app that uses room to store notes. It is currently incomplete, but its goal was to provide a note taking app with formatting capabilities.
+Currently it can only create, read, and update notes. While writing this project I learned about testing applications in addtion to simple database operations. 
 
+###### Technologies Used
+Android Room
+
+JUnit Tests
+
+Android Navigation Component
+
+
+###### How to Setup
+Download [Android Studio](https://developer.android.com/studio)
+
+Open folder containing Fancy Notes in Android Studio 
+
+Use either emulator or phone to run the app
+
+
+## Copyright
 
 Copyright (c) 2022 Joseph Wilson
 
