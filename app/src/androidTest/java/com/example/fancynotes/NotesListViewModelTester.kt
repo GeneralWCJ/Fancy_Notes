@@ -64,50 +64,13 @@ class NotesListViewModelTester : TestCase("ViewModelTesting") {
         try {
             runBlocking {
                 val notes: List<Note> = listOf(
-                    Note(4, "Title 2", "Body 2", 1),
-                    Note(3, "Title 1", "Body 1", 0)
+                    Note(3, "Title 1", "Body 1", 0),
+                    Note(4, "Title 2", "Body 2", 1)
                 )
 
                 for (note in notes) {
                     viewModel.addNote(note)
                 }
-                delay(500)
-                viewModel.loadAllNotes().collect {
-                    assertTrue(notes.size == it.size)
-                    for (i in notes.indices) {
-                        val expectednote = notes[i]
-                        val actualnote = it[i]
-                        assertTrue(expectednote.equalsIgnoreID(actualnote))
-                    }
-                    cancel()
-                }
-            }
-        } catch (e: CancellationException) {
-        }
-    }
-
-    @Test
-    fun deleteFirstNote() {
-        try {
-            runBlocking {
-                // Starts off list
-                val notes = mutableListOf<Note>(
-                    Note(2, "Title 3", "Body 3", 2),
-                    Note(1, "Title 2", "Body 2", 1),
-                    Note(0, "Title 1", "Body 1", 0)
-                )
-                // Adds notes to db
-                for (note in notes) {
-                    viewModel.addNote(note)
-                }
-
-                val notetoremove = notes[2]
-                viewModel.deleteNote(notetoremove)
-                notes.remove(notetoremove)
-
-                notes[1] = Note(1, "Title 2", "Body 2", 0)
-                notes[0] = Note(2, "Title 3", "Body 3", 1)
-
                 delay(500)
                 viewModel.loadAllNotes().collect {
                     assertTrue(notes.size == it.size)
@@ -129,9 +92,46 @@ class NotesListViewModelTester : TestCase("ViewModelTesting") {
             runBlocking {
                 // Starts off list
                 val notes = mutableListOf<Note>(
-                    Note(5, "Title 3", "Body 3", 2),
+                    Note(0, "Title 1", "Body 1", 0),
+                    Note(1, "Title 2", "Body 2", 1),
+                    Note(2, "Title 3", "Body 3", 2)
+                )
+                // Adds notes to db
+                for (note in notes) {
+                    viewModel.addNote(note)
+                }
+
+                val notetoremove = notes[2]
+                viewModel.deleteNote(notetoremove)
+                notes.remove(notetoremove)
+
+                notes[0] = Note(0, "Title 1", "Body 1", 0)
+                notes[1] = Note(1, "Title 2", "Body 2", 1)
+
+                delay(500)
+                viewModel.loadAllNotes().collect {
+                    assertTrue(notes.size == it.size)
+                    for (i in notes.indices) {
+                        val expectednote = notes[i]
+                        val actualnote = it[i]
+                        assertTrue(expectednote.equalsIgnoreID(actualnote))
+                    }
+                    cancel()
+                }
+            }
+        } catch (e: CancellationException) {
+        }
+    }
+
+    @Test
+    fun deleteFirstNote() {
+        try {
+            runBlocking {
+                // Starts off list
+                val notes = mutableListOf<Note>(
+                    Note(7, "Title 1", "Body 1", 0),
                     Note(6, "Title 2", "Body 2", 1),
-                    Note(7, "Title 1", "Body 1", 0)
+                    Note(5, "Title 3", "Body 3", 2)
                 )
                 // Adds notes to db
                 for (note in notes) {
@@ -142,8 +142,9 @@ class NotesListViewModelTester : TestCase("ViewModelTesting") {
                 viewModel.deleteNote(notetoremove)
                 notes.remove(notetoremove)
 
-                notes[0] = Note(6, "Title 2", "Body 2", 1)
-                notes[1] = Note(7, "Title 1", "Body 1", 0)
+
+                notes[0] = Note(6, "Title 2", "Body 2", 0)
+                notes[1] = Note(5, "Title 3", "Body 3", 1)
 
                 delay(500)
                 viewModel.loadAllNotes().collect {
@@ -153,6 +154,112 @@ class NotesListViewModelTester : TestCase("ViewModelTesting") {
                         val actualnote = it[i]
                         assertTrue(expectednote.equalsIgnoreID(actualnote))
                     }
+                    cancel()
+                }
+            }
+        } catch (e: CancellationException) {
+        }
+    }
+
+    @Test
+    fun deleteMiddleNote() {
+        try {
+            runBlocking {
+                // Starts off list
+                val notes = mutableListOf<Note>(
+                    Note(8, "Title 3", "Body 3", 2),
+                    Note(9, "Title 2", "Body 2", 1),
+                    Note(10, "Title 1", "Body 1", 0)
+                )
+                // Adds notes to db
+                for (note in notes) {
+                    viewModel.addNote(note)
+                }
+
+                val notetoremove = notes[1]
+                viewModel.deleteNote(notetoremove)
+                notes.remove(notetoremove)
+
+                notes[1] = Note(8, "Title 3", "Body 3", 1)
+                notes[0] = Note(10, "Title 1", "Body 1", 0)
+
+                delay(500)
+                viewModel.loadAllNotes().collect {
+                    assertTrue(notes.size == it.size)
+                    for (i in notes.indices) {
+                        val expectednote = notes[i]
+                        val actualnote = it[i]
+                        assertTrue(expectednote.equalsIgnoreID(actualnote))
+                    }
+                    cancel()
+                }
+            }
+        } catch (e: CancellationException) {
+        }
+    }
+
+    @Test
+    fun deleteMiddleNoteAsymeteric() {
+        try {
+            runBlocking {
+                // Starts off list
+                val notes = mutableListOf<Note>(
+                    Note(13, "Title 1", "Body 1", 0),
+                    Note(12, "Title 2", "Body 2", 1),
+                    Note(11, "Title 3", "Body 3", 2),
+                    Note(14, "Title 3", "Body 3", 3)
+                )
+                // Adds notes to db
+                for (note in notes) {
+                    viewModel.addNote(note)
+                }
+
+                val notetoremove = notes[1]
+                viewModel.deleteNote(notetoremove)
+                notes.remove(notetoremove)
+                notes[0] = Note(13, "Title 1", "Body 1", 0)
+                notes[1] = Note(11, "Title 3", "Body 3", 1)
+                notes[2] = Note(14, "Title 3", "Body 3", 2)
+
+
+                delay(500)
+                viewModel.loadAllNotes().collect {
+                    assertTrue(notes.size == it.size)
+                    for (i in notes.indices) {
+                        val expectednote = notes[i]
+                        val actualnote = it[i]
+                        assertTrue(expectednote.equalsIgnoreID(actualnote))
+                    }
+                    cancel()
+                }
+            }
+        } catch (e: CancellationException) {
+        }
+    }
+
+    @Test
+    fun deleteToEmpty() {
+        try {
+            runBlocking {
+                // Starts off list
+                val notes = mutableListOf<Note>(
+                    Note(13, "Title 1", "Body 1", 0),
+                    Note(12, "Title 2", "Body 2", 1),
+                    Note(11, "Title 3", "Body 3", 2)
+                )
+                // Adds notes to db
+                for (note in notes) {
+                    viewModel.addNote(note)
+                }
+
+                for (i in notes.indices) {
+                    val notetoremove = notes[0]
+                    viewModel.deleteNote(notetoremove)
+                    notes.remove(notetoremove)
+                }
+                delay(1000)
+                viewModel.loadAllNotes().collect {
+                    assertTrue(it.isEmpty())
                     cancel()
                 }
             }

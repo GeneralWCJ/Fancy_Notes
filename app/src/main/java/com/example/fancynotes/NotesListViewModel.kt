@@ -54,9 +54,9 @@ class NotesListViewModel(private val noteDao: NoteDao) : ViewModel() {
                 noteDao.delete(note)
                 // gets all remaining notes
                 loadAllNotes().collect {
-                    //if the note isnt at the end then move positons accordingly to remove gaps
-                    if (note.position != it.size - 1) {
-                        // Start at note posotion, reduce posotions till end
+                    //if the note isn't at the end then move positions accordingly to remove gaps
+                    if (note.position != it.size) {
+                        // Start at note position, reduce positions till end
                         for (i in note.position until it.size) {
                             val noteToChange = it[i]
                             noteToChange.position--
