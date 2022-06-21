@@ -22,30 +22,64 @@
 
 package com.example.fancynotes
 
-
 import android.content.Context
+import androidx.fragment.app.testing.launchFragmentInContainer
+import androidx.navigation.Navigation
+import androidx.navigation.testing.TestNavHostController
+import androidx.recyclerview.widget.RecyclerView
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
+import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.contrib.RecyclerViewActions
+import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.fancynotes.data.NoteDao
 import com.example.fancynotes.data.NoteRoomDatabase
-import com.example.fancynotes.model.Note
-import com.example.fancynotes.model.equalsIgnoreID
 import junit.framework.TestCase
-import kotlinx.coroutines.runBlocking
-import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import java.io.IOException
 
 @RunWith(AndroidJUnit4::class)
-class DBTester : TestCase("Dao Testing") {
-
+class AppTester : TestCase() {
     private lateinit var noteDao: NoteDao
     private lateinit var db: NoteRoomDatabase
 
     @Before
+    fun setup() {
+        //      launchActivity<MainActivity>()
+
+        val navController = TestNavHostController(
+            ApplicationProvider.getApplicationContext()
+        )
+
+        val noteScenario = launchFragmentInContainer<FragmentNotesList>()
+
+    }
+
+    @Test
+    fun navigatetoNote() {
+        val navController = TestNavHostController(
+            ApplicationProvider.getApplicationContext()
+        )
+
+        val noteListScenario = launchFragmentInContainer<FragmentNotesList>()
+
+        noteListScenario.onFragment { fragment ->
+            navController.setGraph(R.navigation.nav_graph)
+            Navigation.setViewNavController(fragment.requireView(), navController)
+        }
+
+        onView(withId(R.id.noteHolder))
+            .perform(
+                RecyclerViewActions
+                    .actionOnItemAtPosition<RecyclerView.ViewHolder>(1, click())
+            )
+
+        assertEquals(navController.currentDestination?.id, R.id.fragmentIndividualNote)
+    }
+
     fun createDb() {
         val context = ApplicationProvider.getApplicationContext<Context>()
         db = Room.inMemoryDatabaseBuilder(
@@ -53,39 +87,4 @@ class DBTester : TestCase("Dao Testing") {
         ).build()
         noteDao = db.itemDao()
     }
-
-    @After
-    @Throws(IOException::class)
-    fun closeDb() {
-        db.close()
-    }
-
-    @Test
-    @Throws(Exception::class)
-    fun writeNoteAndReadIt() = runBlocking {
-        val note = Note(null, "title 1", "body 1", 0)
-        noteDao.insert(note)
-        val byPosition = noteDao.getNote(0)
-        assertTrue(
-            "the first note did not equal the note inserted",
-            note.equalsIgnoreID(byPosition)
-        )
-    }
-
-    @Test
-    @Throws(Exception::class)
-    fun updateNote() = runBlocking {
-        var note = Note(null, "title 1", "body 1", 1)
-        noteDao.insert(note)
-        val noteindb = noteDao.getNote(1)
-        noteindb.body = "sonmething else"
-        noteDao.update(noteindb)
-        //Thread.sleep(1000)
-        val indatabase = noteDao.getNote(1)
-        assertTrue(
-            "the note was not updated",
-            noteindb == indatabase
-        )
-    }
-
 }
