@@ -74,7 +74,7 @@ class FragmentNotesList : Fragment() {
             view.findNavController().navigate(action)
         }
         noteHolder.adapter = noteHolderAdapter
-        val itemTouchHelper = ItemTouchHelper(SwipeToDeleteCallBack(viewModel))
+        val itemTouchHelper = ItemTouchHelper(SwipeToDeleteCallBack(viewModel, requireContext()))
         itemTouchHelper.attachToRecyclerView(noteHolder)
         lifecycle.coroutineScope.launch {
             viewModel.loadAllNotes().collect {

@@ -22,11 +22,19 @@
 
 package com.example.fancynotes.helpers
 
+import android.app.AlertDialog
+import android.content.Context
+import android.content.DialogInterface
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.fancynotes.NotesListViewModel
+import com.example.fancynotes.R
+import com.example.fancynotes.model.Note
 
-class SwipeToDeleteCallBack(val viewModel: NotesListViewModel) :
+class SwipeToDeleteCallBack(
+    private val viewModel: NotesListViewModel,
+    private val context: Context,
+) :
     ItemTouchHelper.SimpleCallback(
         ItemTouchHelper.UP or ItemTouchHelper.DOWN, ItemTouchHelper.RIGHT
     ) {
@@ -36,13 +44,35 @@ class SwipeToDeleteCallBack(val viewModel: NotesListViewModel) :
         viewHolder: RecyclerView.ViewHolder,
         target: RecyclerView.ViewHolder
     ): Boolean {
-        TODO("Not yet implemented")
+        return false
+        //TODO("Not yet implemented")
     }
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
         val position = viewHolder.adapterPosition
-        viewModel.deleteNote(viewModel.retrieveItem(position))
+        val dialogBuilder = AlertDialog.Builder(context)
+        // set message of alert dialog
+        dialogBuilder.setMessage(R.string.confirm_deletion)
+            // if the dialog is cancelable
+            .setCancelable(false)
+            // positive button text and action
+            .setPositiveButton(R.string.confirm, DialogInterface.OnClickListener { dialog, id ->
+                viewModel.deleteNote(viewModel.retrieveItem(position))
+            })
+            // negative button text and action
+            .setNegativeButton(R.string.cancel, DialogInterface.OnClickListener { dialog, id ->
+                dialog.cancel()
+            })
+        // create dialog box
+        val alert = dialogBuilder.create()
+        // set title for alert dialog box
+        alert.setTitle("AlertDialogExample")
+        // show alert dialog
+        alert.show()
 
     }
 
+    private fun restoreNote(note: Note) {
+
+    }
 }
