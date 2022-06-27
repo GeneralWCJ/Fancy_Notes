@@ -41,6 +41,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 
+
 @RunWith(AndroidJUnit4::class)
 class AppTester : TestCase() {
     private lateinit var noteDao: NoteDao
@@ -48,8 +49,9 @@ class AppTester : TestCase() {
 
     @Before
     fun setup() {
-        //      launchActivity<MainActivity>()
+        //launchActivity<MainActivity>()
 
+        createDb()
         val navController = TestNavHostController(
             ApplicationProvider.getApplicationContext()
         )
