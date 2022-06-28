@@ -41,7 +41,6 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 
-
 @RunWith(AndroidJUnit4::class)
 class AppTester : TestCase() {
     private lateinit var noteDao: NoteDao
@@ -55,13 +54,12 @@ class AppTester : TestCase() {
         val navController = TestNavHostController(
             ApplicationProvider.getApplicationContext()
         )
-
         val noteScenario = launchFragmentInContainer<FragmentNotesList>()
 
     }
 
     @Test
-    fun navigatetoNote() {
+    fun navigateToNote() {
         val navController = TestNavHostController(
             ApplicationProvider.getApplicationContext()
         )
@@ -82,7 +80,7 @@ class AppTester : TestCase() {
         assertEquals(navController.currentDestination?.id, R.id.fragmentIndividualNote)
     }
 
-    fun createDb() {
+    private fun createDb() {
         val context = ApplicationProvider.getApplicationContext<Context>()
         db = Room.inMemoryDatabaseBuilder(
             context, NoteRoomDatabase::class.java

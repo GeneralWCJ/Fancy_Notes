@@ -29,12 +29,20 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface NoteDao {
 
+    /**
+     * Gets all of the [Note] in the database, uses a [Flow] so it must be collected, but is
+     * automatically updated.
+     */
     @Query("SELECT * FROM notes ORDER BY note_position ASC")
     fun getAllNotes(): Flow<List<Note>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(note: Note)
 
+    /**
+     * Updates a [Note] with a changed note. Bases it off of the primary keys, so don't expect to
+     * change the primary keys because behavior will be unexpected
+     */
     @Update
     suspend fun update(note: Note)
 
@@ -43,4 +51,6 @@ interface NoteDao {
 
     @Query("SELECT * FROM notes WHERE note_position == :position")
     suspend fun getNote(position: Int): Note
+
+
 }
