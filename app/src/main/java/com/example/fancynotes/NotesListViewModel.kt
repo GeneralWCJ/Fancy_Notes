@@ -27,12 +27,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.fancynotes.data.NoteDao
 import com.example.fancynotes.model.Note
-import kotlinx.coroutines.cancel
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import kotlin.coroutines.cancellation.CancellationException
 
 
@@ -79,15 +76,21 @@ class NotesListViewModel(private val noteDao: NoteDao) : ViewModel() {
     // Swaps note because onMove is called every time the position changes so it only needs a simple swap
     fun swapNotes(from: Int, to: Int) {
         viewModelScope.launch {
-            val fromNote = retrieveItem(from)
-            val toNote = retrieveItem(to)
-            delay(1000)
+            val fromNote = withContext(Dispatchers.IO) { noteDao.getNote(from) }
+            val toNote = withContext(Dispatchers.IO) { noteDao.getNote(to) }
+            //val notes = grabNotes(from,to)
             fromNote.position = to
             toNote.position = from
             noteDao.update(fromNote)
             noteDao.update(toNote)
+
         }
     }
+
+//    private suspend fun grabNotes(from: Int, to: Int): MutableList<Note> {
+//        return mutableListOf(noteDao.getNote(from), noteDao.getNote(to))
+//    }
+
 
 }
 

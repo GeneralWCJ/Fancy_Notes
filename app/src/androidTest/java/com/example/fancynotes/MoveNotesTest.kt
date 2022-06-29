@@ -79,7 +79,77 @@ class MoveNotesTest : TestCase("MovingNotesTesting") {
                 notes[1] = Note(3, "Title 3", "Body 3", 1)
                 notes[2] = Note(2, "Title 2", "Body 2", 2)
 
-                delay(30000)
+                delay(1000)
+                viewModel.loadAllNotes().collect {
+                    assertTrue(notes.size == it.size)
+                    for (i in notes.indices) {
+                        val expectedNote = notes[i]
+                        val actualNote = it[i]
+                        assertTrue(expectedNote.equalsIgnoreID(actualNote))
+                    }
+                    cancel()
+                }
+            }
+        } catch (e: CancellationException) {
+        }
+    }
+
+    @Test
+    fun moveNoteToTop() {
+        try {
+            runBlocking {
+                // Starts off list
+                val notes = mutableListOf(
+                    Note(5, "Title 1", "Body 1", 0),
+                    Note(6, "Title 2", "Body 2", 1),
+                    Note(7, "Title 3", "Body 3", 2),
+                    Note(8, "Title 4", "Body 4", 3)
+                )
+                // Adds notes to db
+                for (note in notes) {
+                    viewModel.addNote(note)
+                }
+
+                viewModel.swapNotes(0, 1)
+                notes[0] = Note(6, "Title 2", "Body 2", 0)
+                notes[1] = Note(5, "Title 1", "Body 1", 1)
+
+                delay(1000)
+                viewModel.loadAllNotes().collect {
+                    assertTrue(notes.size == it.size)
+                    for (i in notes.indices) {
+                        val expectedNote = notes[i]
+                        val actualNote = it[i]
+                        assertTrue(expectedNote.equalsIgnoreID(actualNote))
+                    }
+                    cancel()
+                }
+            }
+        } catch (e: CancellationException) {
+        }
+    }
+
+    @Test
+    fun moveNoteToBottom() {
+        try {
+            runBlocking {
+                // Starts off list
+                val notes = mutableListOf(
+                    Note(9, "Title 1", "Body 1", 0),
+                    Note(10, "Title 2", "Body 2", 1),
+                    Note(11, "Title 3", "Body 3", 2),
+                    Note(12, "Title 4", "Body 4", 3)
+                )
+                // Adds notes to db
+                for (note in notes) {
+                    viewModel.addNote(note)
+                }
+
+                viewModel.swapNotes(3, 2)
+                notes[2] = Note(12, "Title 4", "Body 4", 2)
+                notes[3] = Note(11, "Title 3", "Body 3", 3)
+
+                delay(1000)
                 viewModel.loadAllNotes().collect {
                     assertTrue(notes.size == it.size)
                     for (i in notes.indices) {
