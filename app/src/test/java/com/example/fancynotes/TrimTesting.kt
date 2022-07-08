@@ -20,6 +20,8 @@
  * SOFTWARE.
  */
 
+@file:Suppress("PropertyName")
+
 package com.example.fancynotes
 
 import com.example.fancynotes.model.Note

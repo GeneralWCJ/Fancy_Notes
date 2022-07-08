@@ -20,6 +20,8 @@
  * SOFTWARE.
  */
 
+@file:Suppress("unused")
+
 package com.example.fancynotes
 
 import android.content.Context

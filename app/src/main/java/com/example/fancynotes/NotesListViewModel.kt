@@ -27,9 +27,11 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.fancynotes.data.NoteDao
 import com.example.fancynotes.model.Note
-import kotlinx.coroutines.*
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kotlin.coroutines.cancellation.CancellationException
 
 
@@ -68,29 +70,46 @@ class NotesListViewModel(private val noteDao: NoteDao) : ViewModel() {
         }
     }
 
-    fun retrieveItem(position: Int): Note = runBlocking {
-        return@runBlocking noteDao.getNote(position)
+    fun getItem(position: Int): Note {
+        val note: Note? = null
+        viewModelScope.launch {
+            noteDao.getNote(position)
+        }
+        return note!!
     }
 
+    fun retrieveNote(position: Int): Note = runBlocking {
+        return@runBlocking noteDao.getNote(position)
+    }
 
     // Swaps note because onMove is called every time the position changes so it only needs a simple swap
     fun swapNotes(from: Int, to: Int) {
         viewModelScope.launch {
-            val fromNote = withContext(Dispatchers.IO) { noteDao.getNote(from) }
-            val toNote = withContext(Dispatchers.IO) { noteDao.getNote(to) }
-            //val notes = grabNotes(from,to)
-            fromNote.position = to
-            toNote.position = from
-            noteDao.update(fromNote)
-            noteDao.update(toNote)
-
+            var note1: Note? = noteDao.getNote(from)
+            while (note1 == null) {
+                note1 = noteDao.getNote(from)
+            }
+            var note2: Note? = noteDao.getNote(to)
+            while (note2 == null) {
+                note2 = noteDao.getNote(to)
+            }
+            note1.position = to
+            noteDao.update(note1)
+            note2.position = from
+            noteDao.update(note2)
         }
     }
 
-//    private suspend fun grabNotes(from: Int, to: Int): MutableList<Note> {
-//        return mutableListOf(noteDao.getNote(from), noteDao.getNote(to))
-//    }
-
+    private fun grabAndChangeOneNote(from: Int, to: Int) {
+        viewModelScope.launch {
+            var note: Note? = noteDao.getNote(from)
+            while (note == null) {
+                note = noteDao.getNote(from)
+            }
+            note.position = to
+            noteDao.update(note)
+        }
+    }
 
 }
 

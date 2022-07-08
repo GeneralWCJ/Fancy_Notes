@@ -24,7 +24,6 @@ package com.example.fancynotes.helpers
 
 import android.app.AlertDialog
 import android.content.Context
-import android.content.DialogInterface
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.fancynotes.NotesListViewModel
@@ -45,7 +44,9 @@ class SwipeToDeleteCallBack(
         target: RecyclerView.ViewHolder
     ): Boolean {
         return false
-
+//        val position = viewHolder.adapterPosition
+//        viewModel.swapNotes(position,target.adapterPosition)
+//        return true
         //TODO("Not yet implemented")
     }
 
@@ -57,13 +58,14 @@ class SwipeToDeleteCallBack(
             // if the dialog is cancelable
             .setCancelable(false)
             // positive button text and action
-            .setPositiveButton(R.string.confirm, DialogInterface.OnClickListener { dialog, id ->
-                viewModel.deleteNote(viewModel.retrieveItem(position))
-            })
+            .setPositiveButton(R.string.confirm) { _, _ ->
+                viewModel.deleteNote(viewModel.retrieveNote(position))
+            }
             // negative button text and action
-            .setNegativeButton(R.string.cancel, DialogInterface.OnClickListener { dialog, id ->
+            .setNegativeButton(R.string.cancel) { dialog, _ ->
+                restoreNote(viewModel.retrieveNote(position))
                 dialog.cancel()
-            })
+            }
         // create dialog box
         val alert = dialogBuilder.create()
         // set title for alert dialog box
