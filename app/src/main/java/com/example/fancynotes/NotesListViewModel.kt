@@ -71,9 +71,11 @@ class NotesListViewModel(private val noteDao: NoteDao) : ViewModel() {
     }
 
     fun getItem(position: Int): Note {
-        val note: Note? = null
+        var note: Note? = null
         viewModelScope.launch {
-            noteDao.getNote(position)
+            while (note == null) {
+                note = noteDao.getNote(position)
+            }
         }
         return note!!
     }
@@ -99,18 +101,6 @@ class NotesListViewModel(private val noteDao: NoteDao) : ViewModel() {
             noteDao.update(note2)
         }
     }
-
-    private fun grabAndChangeOneNote(from: Int, to: Int) {
-        viewModelScope.launch {
-            var note: Note? = noteDao.getNote(from)
-            while (note == null) {
-                note = noteDao.getNote(from)
-            }
-            note.position = to
-            noteDao.update(note)
-        }
-    }
-
 }
 
 class NotesListViewModelFactory(private val noteDao: NoteDao) : ViewModelProvider.Factory {

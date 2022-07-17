@@ -75,16 +75,16 @@ class DBTester : TestCase("Dao Testing") {
     @Test
     @Throws(Exception::class)
     fun updateNote() = runBlocking {
-        var note = Note(null, "title 1", "body 1", 1)
+        val note = Note(null, "title 1", "body 1", 1)
         noteDao.insert(note)
-        val noteindb = noteDao.getNote(1)
-        noteindb.body = "sonmething else"
-        noteDao.update(noteindb)
+        val noteInDb = noteDao.getNote(1)
+        noteInDb.body = "something else"
+        noteDao.update(noteInDb)
         //Thread.sleep(1000)
-        val indatabase = noteDao.getNote(1)
+        val inDatabase = noteDao.getNote(1)
         assertTrue(
             "the note was not updated",
-            noteindb == indatabase
+            noteInDb == inDatabase
         )
     }
 

@@ -43,11 +43,12 @@ class SwipeToDeleteCallBack(
         viewHolder: RecyclerView.ViewHolder,
         target: RecyclerView.ViewHolder
     ): Boolean {
-        return false
-//        val position = viewHolder.adapterPosition
-//        viewModel.swapNotes(position,target.adapterPosition)
-//        return true
-        //TODO("Not yet implemented")
+        //return false
+        val position = viewHolder.layoutPosition
+        viewModel.swapNotes(position, target.layoutPosition)
+        recyclerView.adapter?.notifyItemMoved(position, target.layoutPosition)
+        return true
+        //TODO("Fix when changing to top")
     }
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
