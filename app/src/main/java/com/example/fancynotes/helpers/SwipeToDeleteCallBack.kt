@@ -44,8 +44,9 @@ class SwipeToDeleteCallBack(
         target: RecyclerView.ViewHolder
     ): Boolean {
         //return false
+
         val position = viewHolder.layoutPosition
-        viewModel.swapNotes(position, target.layoutPosition)
+        viewModel.changeNotes(position, target.layoutPosition)
         recyclerView.adapter?.notifyItemMoved(position, target.layoutPosition)
         return true
         //TODO("Fix when changing to top")
@@ -73,6 +74,7 @@ class SwipeToDeleteCallBack(
         alert.setTitle("AlertDialogExample")
         // show alert dialog
         alert.show()
+
 
     }
 

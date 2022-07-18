@@ -110,6 +110,7 @@ class FragmentNotesList : Fragment() {
         val items = binding.noteHolder.adapter!!.itemCount
         val noteToAdd = Note(null, "", "", items)
         viewModel.addNote(noteToAdd)
+        // Moves to the new note based on position
         val action =
             FragmentNotesListDirections.actionNotesListFragmentToFragmentIndividualNote(items)
         requireView().findNavController().navigate(action)

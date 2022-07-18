@@ -43,7 +43,7 @@ import java.io.IOException
 import kotlin.coroutines.cancellation.CancellationException
 
 @RunWith(AndroidJUnit4::class)
-class MoveNotesTest : TestCase("MovingNotesTesting") {
+class ChangeNotesTest : TestCase("ChangeNotesTesting") {
 
     private lateinit var viewModel: NotesListViewModel
     private lateinit var noteDao: NoteDao
@@ -74,12 +74,12 @@ class MoveNotesTest : TestCase("MovingNotesTesting") {
                 for (note in notes) {
                     viewModel.addNote(note)
                 }
-
-                viewModel.swapNotes(1, 2)
+                delay(50)
+                viewModel.changeNotes(2, 1)
                 notes[1] = Note(3, "Title 3", "Body 3", 1)
                 notes[2] = Note(2, "Title 2", "Body 2", 2)
 
-                delay(250)
+                delay(50)
                 viewModel.loadAllNotes().collect {
                     assertTrue(notes.size == it.size)
                     for (i in notes.indices) {
@@ -109,12 +109,12 @@ class MoveNotesTest : TestCase("MovingNotesTesting") {
                 for (note in notes) {
                     viewModel.addNote(note)
                 }
-
-                viewModel.swapNotes(0, 1)
+                delay(50)
+                viewModel.changeNotes(0, 1)
                 notes[0] = Note(6, "Title 2", "Body 2", 0)
                 notes[1] = Note(5, "Title 1", "Body 1", 1)
+                delay(50)
 
-                delay(250)
                 viewModel.loadAllNotes().collect {
                     assertTrue(notes.size == it.size)
                     for (i in notes.indices) {
@@ -144,12 +144,12 @@ class MoveNotesTest : TestCase("MovingNotesTesting") {
                 for (note in notes) {
                     viewModel.addNote(note)
                 }
-
-                viewModel.swapNotes(3, 2)
+                delay(50)
+                viewModel.changeNotes(3, 2)
                 notes[2] = Note(12, "Title 4", "Body 4", 2)
                 notes[3] = Note(11, "Title 3", "Body 3", 3)
+                delay(50)
 
-                delay(250)
                 viewModel.loadAllNotes().collect {
                     assertTrue(notes.size == it.size)
                     for (i in notes.indices) {

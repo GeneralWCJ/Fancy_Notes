@@ -52,5 +52,10 @@ interface NoteDao {
     @Query("SELECT * FROM notes WHERE note_position == :position")
     suspend fun getNote(position: Int): Note
 
+    /**
+     * Gets all of the [Note] in the database. Returns a snapshot of the list that does not change
+     */
+    @Query("SELECT * FROM notes ORDER BY note_position ASC")
+    suspend fun getAllNotesSnapshot(): List<Note>
 
 }

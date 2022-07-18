@@ -84,20 +84,14 @@ class NotesListViewModel(private val noteDao: NoteDao) : ViewModel() {
         return@runBlocking noteDao.getNote(position)
     }
 
-    // Swaps note because onMove is called every time the position changes so it only needs a simple swap
-    fun swapNotes(from: Int, to: Int) {
+    fun changeNotes(from: Int, to: Int) {
         viewModelScope.launch {
-            var note1: Note? = noteDao.getNote(from)
-            while (note1 == null) {
-                note1 = noteDao.getNote(from)
-            }
-            var note2: Note? = noteDao.getNote(to)
-            while (note2 == null) {
-                note2 = noteDao.getNote(to)
-            }
+            val notes = noteDao.getAllNotesSnapshot()
+            val note1 = notes[from]
             note1.position = to
-            noteDao.update(note1)
+            val note2 = notes[to]
             note2.position = from
+            noteDao.update(note1)
             noteDao.update(note2)
         }
     }
